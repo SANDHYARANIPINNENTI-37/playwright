@@ -28,8 +28,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
 ...(process.env.CI ? { workers: 1 } : {}),  
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? 'github' : 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+// Use both 'github' reporter (for CI console logs) and 'html' reporter (to generate the artifact folder)
+  reporter: process.env.CI 
+    ? [['github'], ['html', { outputFolder: 'playwright-report' }]] 
+    : 'html',  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // Global base URL for your practice sandbox
     //baseURL: process.env.BASE_URL, 
