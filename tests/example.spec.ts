@@ -12,7 +12,7 @@ test('Checkout', async ({ page }) => {
 
 });
 
-test.only('Ids and selectors', async ({ page }) => {
+test('Ids and selectors', async ({ page }) => {
   await page.goto('/automationpracticesite1.html');
     const products = page.getByText('Products', {exact:true}).first();
     await products.click();
