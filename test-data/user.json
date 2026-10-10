@@ -1,0 +1,18 @@
+{
+  "name": "Sana",
+  "username": "amercer",
+  "email": "alex.mercer@example.com",
+  "address": {
+    "street": "123 Tech Lane",
+    "suite": "Suite 400",
+    "city": "Cybercity",
+    "zipcode": "90210"
+  },
+  "phone": "1-555-0199",
+  "website": "alexmercer.dev",
+  "company": {
+    "name": "Global Tech Solutions",
+    "catchPhrase": "Innovating the future",
+    "bs": "synergize scalable applications"
+  }
+}

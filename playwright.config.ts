@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import dotenv from 'dotenv';
+import path from 'path';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,6 +12,11 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
+// Resolve environment flag dynamically, defaulting to 'typicode' if none is passed
+const environment = process.env.ENV || 'typicode';
+dotenv.config({ path: path.resolve(process.cwd(), `config/.env.${environment}`) });
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -20,15 +26,25 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-...(process.env.CI ? { workers: 1 } : {}),  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+...(process.env.CI ? { workers: 1 } : {}),  
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    // Global base URL for your practice sandbox
+    //baseURL: process.env.BASE_URL, 
+    baseURL: 'https://www.way2automation.com',   
+    // Default headers applied to every request context
+    extraHTTPHeaders: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    headless:false,
   },
 
   /* Configure projects for major browsers */
@@ -38,15 +54,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
