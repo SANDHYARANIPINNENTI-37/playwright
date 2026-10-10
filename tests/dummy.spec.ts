@@ -1,6 +1,10 @@
 import {test, expect} from '@playwright/test';
 
 test.describe('Dummy Json', ()=>{
+  
+  // Skip this entire block if credentials are missing or if you want to skip in CI
+    test.skip(!process.env.API_USERNAME || !process.env.API_PASSWORD, 'Skipping: Missing API credentials');
+
     let userToken: string;
 
     test.beforeAll(async({request})=>{
