@@ -19,6 +19,8 @@ dotenv.config({ path: path.resolve(process.cwd(), `config/.env.${environment}`) 
 
 export default defineConfig({
   testDir: './tests',
+    timeout: 45000, // Give each test a total of 45 seconds to finish completely
+
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -32,7 +34,17 @@ export default defineConfig({
   reporter: process.env.CI 
     ? [['github'], ['html', { outputFolder: 'playwright-report' }]] 
     : 'html',  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
+   expect: {
+    // Maximum time expect() should wait for the condition to be met.
+    timeout: 25000,
+
+    toHaveScreenshot: {
+      // An acceptable amount of pixels that could be different, unset by default.
+      maxDiffPixels: 10,
+    },
+  },
+  
+    use: {
     // Global base URL for your practice sandbox
     //baseURL: process.env.BASE_URL, 
     baseURL: 'https://www.way2automation.com',   
@@ -47,6 +59,8 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     headless:!!process.env.CI,
+    screenshot:'on-first-failure',
+    
   },
 
   /* Configure projects for major browsers */

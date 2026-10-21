@@ -24,6 +24,19 @@ test('Ids and selectors', async ({ page }) => {
 
 });
 
+
+test('psdv', async ({ page }) => {
+    await page.goto('/automationpracticesite1.html');
+
+    // const l1= page.locator('.hidden .md\\:flex').getByText('Login',{exact:true});
+        const l1= page.locator('.hidden [class~="md:flex"] ').getByText('Login',{exact:true});
+
+  await l1.click();
+
+});
+
+
+
 test('Login', async ({ page }) => {
   await page.goto('/automationpracticesite1.html');
   await expect(page).toHaveTitle('Automation Practice | Full Practice Website for Testing');
@@ -51,6 +64,8 @@ test('Login', async ({ page }) => {
 
   const err = page.locator('#login-message');
   await expect(err).toContainText('Invalid credentials. Use admin / admin');
+
+
 
 
 
