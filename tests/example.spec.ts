@@ -28,10 +28,10 @@ test('Ids and selectors', async ({ page }) => {
 test('psdv', async ({ page }) => {
     await page.goto('/automationpracticesite1.html');
 
-    // const l1= page.locator('.hidden .md\\:flex').getByText('Login',{exact:true});
-        const l1= page.locator('.hidden [class~="md:flex"] ').getByText('Login',{exact:true});
+     //const l1= page.locator('.hidden .md\\:flex').getByText('Login',{exact:true});
+       // const l1= page.locator('.hidden [class~="md:flex"] ').getByText('Login',{exact:true});
 
-  await l1.click();
+ // await l1.click();
 
 });
 

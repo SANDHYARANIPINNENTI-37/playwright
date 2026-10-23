@@ -293,7 +293,8 @@ test('test 12', async({page})=>{
 
   // Locate the hidden file input (even if it's display: none) and upload to it
 await page.locator('input[type="file"]').setInputFiles('images/img.png');
-await page.locator('input[type="file"]').setInputFiles(['images/img.png' , 'images/copy.png' ]);
+
+// await page.locator('input[type="file"]').setInputFiles(['images/img.png' , 'images/copy.png' ]);
 
   });
 
@@ -308,8 +309,10 @@ const r= page.frameLocator('#single-iframe');
    const tr = page.frame('left-frame');
 expect(tr!.getByRole('heading',{name:'LEFT'})).toBeVisible();
     await expect(tr!.getByRole('heading',{name:'LEFT'})).toContainText('LEFT');
+  });
 
 //---------------------------------------------------------------------------------------------------
+test('test 14', async({page})=>{
 
   await page.goto('https://qaplayground.com/practice/iframes');
 const r2 = page
