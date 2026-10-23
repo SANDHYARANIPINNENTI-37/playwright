@@ -318,7 +318,7 @@ test('test 14', async({page})=>{
 const r2 = page
     .frameLocator('iframe[title="Outer Frame"]')
     .frameLocator('iframe[title="Inner Frame"]');
- await expect.soft(r.getByText('Locked')).toBeVisible();
+ await expect.soft(r2.getByText('Locked')).toBeVisible();
 await r2.getByLabel('Secret code').fill('secret');
        await r2.getByRole('button',{name:'Unlock'}).click(); 
         await expect.soft(r2.getByText('Unlocked with: secret ✓')).toBeVisible();
