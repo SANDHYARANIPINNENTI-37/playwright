@@ -263,7 +263,7 @@ test('test 10 - prompt dialogs using chained listeners with dynamic input from u
 await page.getByRole('button',{name:'JS Prompt'}).click();
 });
 
-test.only('test 11', async({page})=>{
+test('test 11', async({page})=>{
   await page.goto('https://www.way2automation.com/automationpracticesite1.html');
   await page.getByRole('button',{name:'Start Practicing Elements'}).click();
   await page.getByRole('button',{name:'Beautiful Modal'}).click();
@@ -278,3 +278,53 @@ test.only('test 11', async({page})=>{
 
 await expect(b).toBeVisible();
 });
+
+test('test 12', async({page})=>{
+  await page.goto('https://www.way2automation.com/automationpracticesite2.html');
+  
+  await page.getByRole('button',{name:'OPEN MODAL'}).click();
+  await page.keyboard.press('Escape');
+  expect(page.getByRole('button',{name:'OPEN MODAL'})).toBeVisible();
+
+  await page.getByLabel('Date of birth').fill('2026-05-15');
+  await expect(page.getByLabel('Date of birth')).toHaveValue('2026-05-15');
+
+  await page.getByLabel('Country').selectOption('IN');
+
+  // Locate the hidden file input (even if it's display: none) and upload to it
+await page.locator('input[type="file"]').setInputFiles('images/img.png');
+await page.locator('input[type="file"]').setInputFiles(['images/img.png' , 'images/copy.png' ]);
+
+  });
+
+test('test 13', async({page})=>{
+  await page.goto('https://www.way2automation.com/practicesite/#frames');
+
+const r= page.frameLocator('#single-iframe');
+   expect(r.getByRole('button',{name:'Frame Button'})).toBeVisible();
+       await expect(r.getByRole('button',{name:'Frame Button'})).toContainText('Frame Button'); 
+
+
+   const tr = page.frame('left-frame');
+expect(tr!.getByRole('heading',{name:'LEFT'})).toBeVisible();
+    await expect(tr!.getByRole('heading',{name:'LEFT'})).toContainText('LEFT');
+
+//---------------------------------------------------------------------------------------------------
+
+  await page.goto('https://qaplayground.com/practice/iframes');
+const r2 = page
+    .frameLocator('iframe[title="Outer Frame"]')
+    .frameLocator('iframe[title="Inner Frame"]');
+ await expect.soft(r.getByText('Locked')).toBeVisible();
+await r2.getByLabel('Secret code').fill('secret');
+       await r2.getByRole('button',{name:'Unlock'}).click(); 
+        await expect.soft(r2.getByText('Unlocked with: secret ✓')).toBeVisible();
+
+// Use getByPlaceholder instead of getByLabel
+  await r2.getByPlaceholder('Secret code').fill('secret');
+
+//other way to proceed page.frameLocator('[data-testid="iframe-outer"]').frameLocator('iframe[title="Inner Frame"]'). Then fill: .getByTestId('iframe-inner-input').fill('secret')
+ 
+
+
+    });
