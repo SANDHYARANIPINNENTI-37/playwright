@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test';
+import {expect, test } from '@playwright/test';
 
 test('flipkart search', async({page})=>{
 
@@ -327,7 +327,58 @@ await r2.getByLabel('Secret code').fill('secret');
   await r2.getByPlaceholder('Secret code').fill('secret');
 
 //other way to proceed page.frameLocator('[data-testid="iframe-outer"]').frameLocator('iframe[title="Inner Frame"]'). Then fill: .getByTestId('iframe-inner-input').fill('secret')
- 
 
 
     });
+
+    
+test('test 15', async({page, context})=>{
+  await page.goto('https://qaplayground.com/practice/tabs-windows');
+
+  const [newPage] = await Promise.all([
+    context.waitForEvent('page'),
+    await page.getByTestId('tw-tab-a').click(),
+  ]); 
+  
+  await newPage.waitForLoadState();
+
+  await expect(newPage).toHaveURL('https://qaplayground.com/');
+   await expect(newPage).toHaveTitle('QA Playground — Practice Selenium, Playwright & Cypress');
+   expect(context.pages().length).toBe(2);
+
+// Close the new tab
+await newPage.close();
+expect(context.pages().length).toBe(1);
+
+// Bring original back to front
+await page.bringToFront();
+
+   await expect(page).toHaveURL('https://qaplayground.com/practice/tabs-windows');
+     await expect(page).toHaveTitle('How to Handle Tabs and Windows in Selenium and Playwright | QA Playground');
+
+    });
+
+        
+test('test 16', async({page, context})=>{
+  await page.goto('https://qaplayground.com/practice/tabs-windows');
+
+  // Capture a window.open() popup
+const [popup] = await Promise.all([
+  page.waitForEvent('popup'),
+  page.getByTestId('tw-popup-btn').click(),
+]);
+await popup.waitForLoadState();
+
+// Assert popup URL
+expect(popup.url()).toContain('qaplayground');
+ const t= page.getByRole('heading',{name:'How to Handle Tabs and Windows in Selenium and Playwright'});
+    await expect(t).toBeVisible();
+
+// Close the popup
+await popup.close();
+
+  const r = page.getByTestId('result-s06');
+      await expect(r).toBeVisible();
+    });
+
+    
